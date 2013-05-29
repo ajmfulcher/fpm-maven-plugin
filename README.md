@@ -3,6 +3,7 @@ maven-fpm-plugin
 
 A Maven plugin to create system packages using FPM
 
+```xml
   <plugin>
       <groupId>uk.me.ajmfulcher.fpmplugin</groupId>
       <artifactId>maven-fpm-plugin</artifactId>
@@ -21,3 +22,4 @@ A Maven plugin to create system packages using FPM
         </execution>
       </executions>
   </plugin>
+```
