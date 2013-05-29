@@ -14,7 +14,7 @@ A Maven plugin to create system packages using FPM
       </configuration>
       <executions>
         <execution>
-            <id>make-deb</id>
+            <id>run-fpm</id>
             <phase>package</phase>
             <goals>
                 <goal>fpm</goal>
