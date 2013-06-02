@@ -1,4 +1,4 @@
-maven-fpm-plugin
+fpm-maven-plugin
 ================
 
 A Maven plugin to create system packages using FPM
