@@ -1,13 +1,8 @@
 package uk.me.ajmfulcher.fpmplugin;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
-
-import org.monkeybars.rawr.Main;
-
+import org.jruby.JarBootstrapMain;
 import org.apache.commons.lang3.ArrayUtils;
-// import java.lang.reflect.Method;
 
 public class FpmPlugin {
 	
@@ -58,14 +53,8 @@ public class FpmPlugin {
 		}
 	}
 	
-//	public void invoke() throws Exception{
-//		Class fpmWarble = Class.forName("org.monkeybars.rawr.Main");
-//		Method mainMethod = fpmWarble.getDeclaredMethod("main", new Class[] { String[].class });
-//		mainMethod.invoke(null, new Object[] { this.getArgs() });
-//	}
-	
 	public void invoke() throws Exception {
-		Main.main(this.getArgs());
+		JarBootstrapMain.main(this.getArgs());
 	}
 
 }
