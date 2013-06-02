@@ -6,7 +6,7 @@ A Maven plugin to create system packages using FPM
 ```xml
   <plugin>
       <groupId>uk.me.ajmfulcher.fpmplugin</groupId>
-      <artifactId>maven-fpm-plugin</artifactId>
+      <artifactId>fpm-maven-plugin</artifactId>
       <configuration>
         <typeArg>fpm</typeArg>
         <inputType>gem</inputType>
