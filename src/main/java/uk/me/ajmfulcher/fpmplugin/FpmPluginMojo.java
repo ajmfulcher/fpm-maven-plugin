@@ -12,14 +12,14 @@ import org.apache.maven.plugin.MojoFailureException;
 public class FpmPluginMojo extends AbstractMojo {
 
     /**
-     * Output directory
+     * Input type
      * @parameter expression="${fpm.inputType}"
      * @required
      */
     private String inputType;
 
     /**
-     * Output directory
+     * Output type
      * @parameter expression="${fpm.outputType}"
      * @required
      */
@@ -33,21 +33,28 @@ public class FpmPluginMojo extends AbstractMojo {
     private String outputDir;
     
     /**
-     * Output directory
-     * @parameter expression="${fpm.typeArg}"
+     * Package name
+     * @parameter expression="${fpm.packageName}" default-value="${project.artifactId}"
      * @required
      */
-    private String typeArg;
+    private String packageName;
     
     /**
-     * Output directory
+     * Package name
+     * @parameter expression="${fpm.packageVersion}" default-value="${project.version}"
+     * @required
+     */
+    private String packageVersion;
+    
+    /**
+     * Optional arguments
      * @parameter expression="${fpm.optionalArgs}"
      */
     private String optionalArgs;
     
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		
-		FpmPlugin fpm = new FpmPlugin(this.inputType,this.outputType,this.outputDir,this.typeArg);
+		FpmPlugin fpm = new FpmPlugin(this.inputType,this.outputType,this.outputDir,this.packageName,this.packageVersion);
 		
 		if (optionalArgs != null){
 			fpm.setOptionalArgs(this.optionalArgs);

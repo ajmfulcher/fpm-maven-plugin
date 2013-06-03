@@ -9,14 +9,23 @@ public class FpmPlugin {
 	private String inputType;
 	private String outputType;
 	private String outputDir;
-	private String typeArg;
+	private String packageName;
+	private String packageVersion;
 	private String optionalArgs = "";
 	
-	FpmPlugin(String inputType, String outputType, String outputDir, String typeArg){
+	FpmPlugin(
+		String inputType, 
+		String outputType, 
+		String outputDir, 
+		String packageName,
+		String packageVersion 
+		)
+	{
 		this.inputType = inputType;
 		this.outputType = outputType;
 		this.outputDir = new File(outputDir, "fpm").toString();
-		this.typeArg = typeArg;
+		this.packageName = packageName;
+		this.packageVersion = packageVersion;
 		
 		new File(this.outputDir, "base").mkdirs();
 		new File(this.outputDir, "tmp").mkdirs();
@@ -27,18 +36,31 @@ public class FpmPlugin {
 		this.optionalArgs = optionalArgs;
 	}
 	
-	public String[] getMandatoryArgs(){
-		String[] arguments = new String[9];
+	public String[] getCoreArgs(){
+		String[] arguments = new String[10];
 		arguments[0] = "-s";
-		arguments[1] = inputType;
+		arguments[1] = this.inputType;
 		arguments[2] = "-t";
-		arguments[3] = outputType;
+		arguments[3] = this.outputType;
 		arguments[4] = "-C";
 		arguments[5] = new File(this.outputDir, "base").toString();
 		arguments[6] = "--workdir";
 		arguments[7] = new File(this.outputDir, "tmp").toString();
-		arguments[8] = typeArg;
-		return arguments;
+		arguments[8] = "-v";
+		arguments[9] = this.packageVersion;
+		return ArrayUtils.addAll(arguments,this.getTypeArgs(this.inputType));
+	}
+	
+	public String[] getMandatoryArgs(){
+		if (inputType == "dir") {
+			return ArrayUtils.addAll(this.getDirArgs(), this.getCoreArgs());
+		} else {
+			return this.getCoreArgs();
+		}
+	}
+	
+	public String[] getDirArgs(){
+		return new String[] {"-n", this.packageName};
 	}
 	
 	public String[] getOptionalArgs(){
@@ -51,6 +73,17 @@ public class FpmPlugin {
 		} else {
 			return ArrayUtils.addAll(this.getOptionalArgs(),this.getMandatoryArgs());
 		}
+	}
+	
+	public String[] getTypeArgs(String inputType){
+		String[] typeArgs = new String[1];
+		if (inputType == "dir") {
+			File baseDir = new File(this.outputDir, "base");
+			typeArgs = baseDir.list();
+		} else {
+			typeArgs[0] = this.packageName;
+		}
+		return typeArgs;
 	}
 	
 	public void invoke() throws Exception {
