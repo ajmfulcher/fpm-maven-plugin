@@ -96,7 +96,7 @@ public class FpmPluginTest {
 		FpmPlugin fpm = new FpmPlugin(inputType,outputType,outputDir,packageName, packageVersion);
 
 		// And the response we expect
-		String[] response = { "etc", "usr" };
+		String[] response = { "usr", "etc" };
 		assertArrayEquals(fpm.getTypeArgs(inputType),response);
 		
 		// Teardown
