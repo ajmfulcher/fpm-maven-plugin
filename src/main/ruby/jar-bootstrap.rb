@@ -3,14 +3,13 @@
 require 'java'
 java_import 'uk.me.ajmfulcher.fpmplugin.JrubyHelper'
 
-# java_base = JrubyHelper.new.get_jar_path
-# puts java_base
+java_paths = JrubyHelper.new.get_jar_path
 
-# Nasty kludge to get the jar:file uri.
-# There must be a better way.
-java_base = Gem::dir.split('!')[0]
+dirs = []
+java_paths.each do |path|
+  Dir.glob("#{path}/gems/*/lib").each{|d| dirs << d}
+end
 
-dirs = Dir.glob "#{java_base}/gems/*/lib"
 dirs.each{|dir| $LOAD_PATH.unshift dir}
 
 require "fpm"
