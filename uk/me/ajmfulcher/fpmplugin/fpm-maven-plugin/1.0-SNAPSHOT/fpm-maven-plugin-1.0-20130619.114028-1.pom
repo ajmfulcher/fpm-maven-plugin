@@ -13,6 +13,16 @@
       <url>http://rubygems-proxy.torquebox.org/releases</url>
     </pluginRepository>
   </pluginRepositories>
+  <distributionManagement>
+    <repository>
+        <id>github</id>
+        <name>GitHub ${project.artifactId} Repository</name>
+        <url>https://raw.github.com/ajmfulcher/${project.artifactId}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
+  <properties>
+    <github.global.server>github</github.global.server>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.jruby</groupId>
@@ -38,19 +48,6 @@
   </dependencies>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>de.saumya.mojo</groupId>
         <artifactId>gem-maven-plugin</artifactId>
@@ -80,6 +77,36 @@
               <target>1.5</target>
           </configuration>
       </plugin>
+      <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+          </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.8</version>
+        <configuration>
+            <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+            <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+            <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+            <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+            <includes><include>**/*</include></includes>
+            <repositoryName>fpm-maven-plugin</repositoryName>      <!-- github repo name -->
+            <repositoryOwner>ajmfulcher</repositoryOwner>   <!-- github username  -->
+        </configuration>
+        <executions>
+          <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+    </plugin>
     </plugins>
     <resources>
       <resource>
