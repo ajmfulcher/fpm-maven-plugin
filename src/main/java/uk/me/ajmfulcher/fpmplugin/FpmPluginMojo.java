@@ -2,7 +2,6 @@ package uk.me.ajmfulcher.fpmplugin;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Goal which creates a package using FPM
@@ -52,7 +51,7 @@ public class FpmPluginMojo extends AbstractMojo {
      */
     private String optionalArgs;
     
-	public void execute() throws MojoExecutionException, MojoFailureException {
+	public void execute() throws MojoExecutionException {
 		
 		FpmPlugin fpm = new FpmPlugin(this.inputType,this.outputType,this.outputDir,this.packageName,this.packageVersion);
 		
