@@ -52,7 +52,7 @@ public class FpmPlugin {
 	}
 	
 	public String[] getMandatoryArgs(){
-		if (inputType == "dir") {
+		if ("dir".equals(inputType)) {
 			return ArrayUtils.addAll(this.getDirArgs(), this.getCoreArgs());
 		} else {
 			return this.getCoreArgs();
@@ -68,7 +68,7 @@ public class FpmPlugin {
 	}
 	
 	public String[] getArgs(){
-		if (this.optionalArgs == "") {
+		if (this.optionalArgs.equals("")) {
 			return this.getMandatoryArgs();
 		} else {
 			return ArrayUtils.addAll(this.getOptionalArgs(),this.getMandatoryArgs());
@@ -77,7 +77,7 @@ public class FpmPlugin {
 	
 	public String[] getTypeArgs(String inputType){
 		String[] typeArgs = new String[1];
-		if (inputType == "dir") {
+		if ("dir".equals(inputType)) {
 			File baseDir = new File(this.outputDir, "base");
 			typeArgs = baseDir.list();
 		} else {
