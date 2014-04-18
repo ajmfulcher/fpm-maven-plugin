@@ -53,7 +53,7 @@
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>fpm</artifactId>
-            <version>0.4.37</version>
+            <version>1.0.2</version>
             <type>gem</type>
           </dependency>
         </dependencies>
